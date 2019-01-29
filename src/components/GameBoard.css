@@ -1,0 +1,178 @@
+.board {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100vw;
+  background-color: rgba(30, 50, 255, .5);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.board::after {
+  content: "";
+  position: absolute;
+  top: calc(50% + (100vw / 14));
+  left: calc(50% + (100vw / 14));
+  transform: translate(-50%, -50%);
+  display: block;
+  width: 0px;
+  height: 0px;
+  background-color: transparent;
+  border: 5px solid dodgerblue;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 5px dodgerblue;
+  animation: radar 4s infinite linear;
+  z-index: -1;
+}
+
+.boardLetter,
+.boardRow,
+.boardCell {
+  width: calc(100vw / 7);
+  height: calc(100vw / 7);
+  border: 1px solid dodgerblue;
+  line-height: calc(100vw / 7);
+  text-align: center;
+}
+
+.boardLetter,
+.boardRow {
+  background-color: #025;
+}
+
+.hit {
+  background-color: transparent;
+  background-image: url("../img/hit.png");
+  background-size: contain;
+}
+
+.miss {
+  background-color: transparent;
+  background-image: url("../img/miss.png");
+  background-size: contain;
+}
+
+.sunk {
+  background-color: rgba(0, 0, 50, .3);
+}
+
+@keyframes radar {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+
+  90% {
+    width: 90vh;
+    height: 90vh;
+    opacity: .5;
+  }
+
+  100% {
+    width: 100vh;
+    height: 100vh;
+    opacity: 0;
+  }
+}
+
+@media (min-width: 768px) and (orientation: portrait) {
+  .board::after {
+    content: "";
+    position: absolute;
+    top: calc(50% + (100vw / 22));
+    left: calc(50% + (100vw / 22));
+    transform: translate(-50%, -50%);
+    display: block;
+    width: 0px;
+    height: 0px;
+    background-color: transparent;
+    border: 5px solid dodgerblue;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 5px dodgerblue;
+    animation: radar 4s infinite linear;
+    z-index: -1;
+  }
+
+  .boardLetter,
+  .boardRow,
+  .boardCell {
+    width: calc(100vw / 11);
+    height: calc(100vw / 11);
+    border: 1px solid dodgerblue;
+    line-height: calc(100vw / 11);
+    text-align: center;
+  }
+}
+
+@media (min-width: 568px) and (orientation: landscape) {
+  .board {
+    order: 1;
+    width: 90vh;
+    height: 90vh;
+  }
+
+  .board::after {
+    top: calc(50% + (90vh / 14));
+    left: calc(50% + (90vh / 14));
+  }
+
+  .boardLetter,
+  .boardRow,
+  .boardCell {
+    width: calc(90vh / 7);
+    height: calc(90vh / 7);
+    line-height: calc(90vh / 7);
+  }
+
+  .boardCell {
+    cursor: url("../img/aim.png") 25 25, default;
+  }
+
+  @keyframes radar {
+    0% {
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+
+    90% {
+      width: 90vw;
+      height: 90vw;
+      opacity: .5;
+    }
+
+    100% {
+      width: 100vw;
+      height: 100vw;
+      opacity: 0;
+    }
+  }
+
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .board {
+    order: 1;
+    width: 90vh;
+    height: 90vh;
+  }
+
+  .board::after {
+    top: calc(50% + (90vh / 22));
+    left: calc(50% + (90vh / 22));
+  }
+
+  .board p {
+    font-size: 25px;
+  }
+
+  .boardLetter,
+  .boardRow,
+  .boardCell {
+    width: calc(90vh / 11);
+    height: calc(90vh / 11);
+    line-height: calc(90vh / 11);
+  }
+}

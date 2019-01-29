@@ -1,0 +1,158 @@
+.message {
+  width: 100vw;
+  line-height: 40px;
+  padding: 10px 0;
+  text-align: center;
+  background-color: rgba(30, 144, 255, .5);
+  border: 1px solid dodgerblue;
+}
+
+.message h2 {
+  font-size: 18px;
+}
+
+.stats {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 100vw - 80px);
+  padding: 10px 5vw;
+  text-align: center;
+}
+
+.stats h3 {
+  padding: 10px;
+}
+
+
+.stats h3:last-of-type {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(30, 144, 255, .5);
+  border: 1px solid dodgerblue;
+}
+
+.stats h3 span {
+  color: white;
+}
+
+.sunkenShips img {
+  position: relative;
+  max-width: 5vw;
+  margin: 10px;
+}
+
+@media (min-width: 768px) and (orientation: portrait) {
+
+  .stats h3 {
+    width: 50vw;
+    text-align: left;
+    line-height: 80px;
+    font-size: 25px;
+    float: left;
+  }
+
+  .stats h3:last-of-type {
+    left: calc(10vw / 2);
+    background-color: transparent;
+    border: none;
+  }
+
+  .sunkenShips img {
+    max-width: 3vh;
+  }
+}
+
+@media (min-width: 568px) and (orientation: landscape) {
+
+  .message,
+  .stats {
+    width: calc(100vw - 90vh);
+  }
+
+  .message {
+    height: calc((90vh / 7) * 2);
+  }
+
+  .message h2 {
+    font-size: 20px;
+    letter-spacing: 1px;
+    line-height: calc(90vh / 7);
+  }
+
+  .stats {
+    position: relative;
+    height: calc((90vh / 7) * 5);
+  }
+
+  .stats h3 {
+    font-size: 14px;
+    line-height: 40px;
+    color: #ccc;
+  }
+
+  .stats h3:last-of-type {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: calc(90vh / 11);
+    background-color: rgba(30, 144, 255, .5);
+    border: 1px solid dodgerblue;
+    text-align: center;
+  }
+
+  .sunkenShips img {
+    position: relative;
+    max-width: 5vh;
+    margin: 10px;
+  }
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+
+  .message,
+  .stats {
+    width: calc(100vw - 90vh);
+  }
+
+  .message {
+    height: calc((90vh / 11) * 2);
+  }
+
+  .message h2 {
+    font-family: Arial;
+    font-size: 30px;
+    line-height: calc((90vh / 11) * 2);
+  }
+
+  .stats {
+    position: relative;
+    height: calc((90vh / 11) * 9);
+  }
+
+  .stats h3 {
+    font-size: 20px;
+    line-height: 50px;
+    color: #ccc;
+    letter-spacing: 1px;
+  }
+
+  .stats h3:last-of-type {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    line-height: calc(90vh / 11);
+    background-color: rgba(30, 144, 255, .5);
+    border: 1px solid dodgerblue;
+    text-align: center;
+  }
+
+  .sunkenShips img {
+    position: relative;
+    max-width: 5vh;
+    margin: 10px;
+  }
+}
