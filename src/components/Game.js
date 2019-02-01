@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import hit from '../audio/hit.mp3';
 import miss from '../audio/miss.mp3';
 import gameover from '../audio/gameover.mp3';
@@ -21,7 +23,12 @@ class Game extends Component {
   }
 
   playNewGame = () => {
-    let { boardSize, numberOfShips, letters, ships } = this.state
+    let {
+      boardSize,
+      numberOfShips,
+      letters,
+      ships
+    } = this.state
 
     for (let ship of ships) {
       for (let i = 0; i < ship.length; i++) {
@@ -52,7 +59,12 @@ class Game extends Component {
       ship.locations = locations
     }
 
-    this.setState({ boardSize, numberOfShips, letters, ships })
+    this.setState({
+      boardSize,
+      numberOfShips,
+      letters,
+      ships
+    })
   }
 
   generateShip(ship, boardSize, letters) {
@@ -60,11 +72,10 @@ class Game extends Component {
     let column = letters
     let row = boardSize
     let index = 0
-    if (direction === 1) {                    // kierunek poziomy
+    if (direction === 1) { // kierunek poziomy
       row = Math.ceil(Math.random() * boardSize)
       index = Math.floor(Math.random() * (boardSize - ship.length))
-    }
-    else {                                  // kierunek pionowy
+    } else { // kierunek pionowy
       row = Math.ceil(Math.random() * (boardSize - ship.length))
       index = Math.floor(Math.random() * boardSize)
     }
@@ -73,8 +84,7 @@ class Game extends Component {
     for (let i = 0; i < ship.length; i++) {
       if (direction === 1) {
         newShipLocations.push((column[index + i]) + row)
-      }
-      else {
+      } else {
         newShipLocations.push(column[index] + (row + i))
       }
     }
@@ -89,8 +99,8 @@ class Game extends Component {
       for (let i = 0; i < ship.length; i++) {
         if (ship.locations[i]) {
           const char = ship.locations[i].charAt(0)
-          let charPrev
-          let charNext
+          let charPrev = false
+          let charNext = false
           let nextIndex = letters.indexOf(char) + 1
           let prevIndex = letters.indexOf(char) - 1
 
@@ -101,46 +111,56 @@ class Game extends Component {
           if (letters.indexOf(char) > 0 && letters.indexOf(char) < 9) {
             charPrev = letters[prevIndex]
             charNext = letters[nextIndex]
-          }
-          else if (letters.indexOf(char) === 9) {
+          } else if (letters.indexOf(char) === 9) {
             charPrev = letters[prevIndex]
             charNext = false
-          }
-          else if (letters.indexOf(char) === 0) {
+          } else if (letters.indexOf(char) === 0) {
             charPrev = false
             charNext = letters[nextIndex]
           }
           if (numberPrev === 1) {
             numberPrev = false
             numberNext++
-          }
-          else if (numberNext === 10) {
+          } else if (numberNext === 10) {
             numberPrev--
             numberNext = false
-          }
-          else if (numberPrev > 1 && numberNext < 10) {
+          } else if (numberPrev > 1 && numberNext < 10) {
             numberPrev--
             numberNext++
           }
 
-          if (charPrev && numberPrev) { locationsArea.push(charPrev + numberPrev) }
-          if (charPrev && number) { locationsArea.push(charPrev + number) }
-          if (charPrev && numberNext) { locationsArea.push(charPrev + numberNext) }
+          if (charPrev && numberPrev) {
+            locationsArea.push(charPrev + numberPrev)
+          }
+          if (charPrev && number) {
+            locationsArea.push(charPrev + number)
+          }
+          if (charPrev && numberNext) {
+            locationsArea.push(charPrev + numberNext)
+          }
 
-          if (char && numberPrev) { locationsArea.push(char + numberPrev) }
-          if (char && numberNext) { locationsArea.push(char + numberNext) }
+          if (char && numberPrev) {
+            locationsArea.push(char + numberPrev)
+          }
+          if (char && numberNext) {
+            locationsArea.push(char + numberNext)
+          }
 
-          if (charNext && numberPrev) { locationsArea.push(charNext + numberPrev) }
-          if (charNext && number) { locationsArea.push(charNext + number) }
-          if (charNext && numberNext) { locationsArea.push(charNext + numberNext) }
+          if (charNext && numberPrev) {
+            locationsArea.push(charNext + numberPrev)
+          }
+          if (charNext && number) {
+            locationsArea.push(charNext + number)
+          }
+          if (charNext && numberNext) {
+            locationsArea.push(charNext + numberNext)
+          }
 
         }
-
 
         if (ship.locations.indexOf(locations[i]) >= 0) {
           return true
-        }
-        else if (locationsArea.indexOf(locations[i]) >= 0) {
+        } else if (locationsArea.indexOf(locations[i]) >= 0) {
           return true
         }
       }
@@ -157,8 +177,7 @@ class Game extends Component {
       if (e.target.classList.contains("hit") || e.target.classList.contains("miss")) {
         message = "Wybierz nowe współrzędne"
         id = 0
-      }
-      else {
+      } else {
         let ships = [...this.state.ships]
         let sunkenShips = this.state.sunkenShips
 
@@ -176,12 +195,14 @@ class Game extends Component {
               }
             }
             break;
-          }
-          else {
+          } else {
             message = "Pudło!"
           }
         }
-        this.setState(() => ({ ships, sunkenShips }))
+        this.setState(() => ({
+          ships,
+          sunkenShips
+        }))
       }
       this.viewResult(message, id)
     }
@@ -205,10 +226,10 @@ class Game extends Component {
   viewResult(message, id) {
 
     if (id === 0) {
-      this.setState({ message })
-    }
-
-    else {
+      this.setState({
+        message
+      })
+    } else {
       let playerMoves = this.state.playerMoves
       playerMoves++
 
@@ -219,70 +240,72 @@ class Game extends Component {
         if (message === "Koniec gry") {
           const audio = new Audio(gameover)
           audio.play()
-          this.setState({ gameOn: false })
+          this.setState({
+            gameOn: false
+          })
         }
-      }
-      else if (message === "Pudło!") {
+      } else if (message === "Pudło!") {
         const audio = new Audio(miss)
         audio.play()
         document.getElementById(id).classList.add("miss")
       }
-      this.setState(() => ({ message, playerMoves }))
+      this.setState(() => ({
+        message,
+        playerMoves
+      }))
     }
   }
 
   componentDidMount() {
     const deviceWidth = (window.innerWidth > 0) ? window.innerWidth : "640";
     const deviceHeight = (window.innerHeight > 0) ? window.innerHeight : "360";
-    // let deviceWidth = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-    // let deviceHeight = (window.innerHeight > 0) ? window.innerHeight : screen.height;
 
     let boardSize = 10
     let numberOfShips = 6
     let letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     let ships = [{
-      length: 5,
-      locations: ["", "", "", "", ""],
-      hits: ["", "", "", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 4,
-      locations: ["", "", "", ""],
-      hits: ["", "", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 3,
-      locations: ["", "", ""],
-      hits: ["", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 3,
-      locations: ["", "", ""],
-      hits: ["", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 2,
-      locations: ["", ""],
-      hits: ["", ""],
-      isSunk: false,
-    },
-    {
-      length: 2,
-      locations: ["", ""],
-      hits: ["", ""],
-      isSunk: false,
-    }]
+        length: 5,
+        locations: ["", "", "", "", ""],
+        hits: ["", "", "", "", ""],
+        isSunk: false,
+      },
+      {
+        length: 4,
+        locations: ["", "", "", ""],
+        hits: ["", "", "", ""],
+        isSunk: false,
+      },
+      {
+        length: 3,
+        locations: ["", "", ""],
+        hits: ["", "", ""],
+        isSunk: false,
+      },
+      {
+        length: 3,
+        locations: ["", "", ""],
+        hits: ["", "", ""],
+        isSunk: false,
+      },
+      {
+        length: 2,
+        locations: ["", ""],
+        hits: ["", ""],
+        isSunk: false,
+      },
+      {
+        length: 2,
+        locations: ["", ""],
+        hits: ["", ""],
+        isSunk: false,
+      }
+    ]
 
     if (deviceWidth <= 823 && deviceHeight < 1024) {
       boardSize = 6;
       numberOfShips = 3;
       letters = ["A", "B", "C", "D", "E", "F"];
-      ships = [
-        {
+      ships = [{
           length: 4,
           locations: ["", "", "", ""],
           hits: ["", "", "", ""],
@@ -307,16 +330,54 @@ class Game extends Component {
   }
 
   render() {
-    const { gameOn, boardSize, letters, sunkenShips, playerMoves, message, ships } = this.state
+    const {
+      gameOn,
+      boardSize,
+      letters,
+      sunkenShips,
+      playerMoves,
+      message,
+      ships
+    } = this.state
 
-    return (
-      <>
-        {!gameOn && <GameController gameOn={gameOn} playerMoves={playerMoves} playNewGame={this.playNewGame} />}
-        {gameOn && <GameBoard letters={letters} boardSize={boardSize} handleGuess={this.handleGuess} />}
-        {gameOn && <GameStats msg={message} sunkenShips={sunkenShips} playerMoves={playerMoves} ships={ships} />}
-      </>
-    );
+    return ( <
+      >
+      {
+        !gameOn && < GameController gameOn = {
+          gameOn
+        }
+        playerMoves = {
+          playerMoves
+        }
+        playNewGame = {
+          this.playNewGame
+        }
+        />} {
+        gameOn && < GameBoard letters = {
+          letters
+        }
+        boardSize = {
+          boardSize
+        }
+        handleGuess = {
+          this.handleGuess
+        }
+        />} {
+        gameOn && < GameStats msg = {
+          message
+        }
+        sunkenShips = {
+          sunkenShips
+        }
+        playerMoves = {
+          playerMoves
+        }
+        ships = {
+          ships
+        }
+        />} < / >
+      );
+    }
   }
-}
 
-export default Game;
+  export default Game;
