@@ -264,12 +264,48 @@ class Game extends Component {
     let numberOfShips = 6
     let letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     let ships = [{
-        length: 5,
-        locations: ["", "", "", "", ""],
-        hits: ["", "", "", "", ""],
-        isSunk: false,
-      },
-      {
+      length: 5,
+      locations: ["", "", "", "", ""],
+      hits: ["", "", "", "", ""],
+      isSunk: false,
+    },
+    {
+      length: 4,
+      locations: ["", "", "", ""],
+      hits: ["", "", "", ""],
+      isSunk: false,
+    },
+    {
+      length: 3,
+      locations: ["", "", ""],
+      hits: ["", "", ""],
+      isSunk: false,
+    },
+    {
+      length: 3,
+      locations: ["", "", ""],
+      hits: ["", "", ""],
+      isSunk: false,
+    },
+    {
+      length: 2,
+      locations: ["", ""],
+      hits: ["", ""],
+      isSunk: false,
+    },
+    {
+      length: 2,
+      locations: ["", ""],
+      hits: ["", ""],
+      isSunk: false,
+    }
+    ]
+
+    if (deviceWidth <= 823 && deviceHeight < 1024) {
+      boardSize = 6;
+      numberOfShips = 3;
+      letters = ["A", "B", "C", "D", "E", "F"];
+      ships = [{
         length: 4,
         locations: ["", "", "", ""],
         hits: ["", "", "", ""],
@@ -282,47 +318,11 @@ class Game extends Component {
         isSunk: false,
       },
       {
-        length: 3,
-        locations: ["", "", ""],
-        hits: ["", "", ""],
-        isSunk: false,
-      },
-      {
-        length: 2,
-        locations: ["", ""],
-        hits: ["", ""],
-        isSunk: false,
-      },
-      {
         length: 2,
         locations: ["", ""],
         hits: ["", ""],
         isSunk: false,
       }
-    ]
-
-    if (deviceWidth <= 823 && deviceHeight < 1024) {
-      boardSize = 6;
-      numberOfShips = 3;
-      letters = ["A", "B", "C", "D", "E", "F"];
-      ships = [{
-          length: 4,
-          locations: ["", "", "", ""],
-          hits: ["", "", "", ""],
-          isSunk: false,
-        },
-        {
-          length: 3,
-          locations: ["", "", ""],
-          hits: ["", "", ""],
-          isSunk: false,
-        },
-        {
-          length: 2,
-          locations: ["", ""],
-          hits: ["", ""],
-          isSunk: false,
-        }
 
       ]
     }
@@ -340,44 +340,43 @@ class Game extends Component {
       ships
     } = this.state
 
-    return ( <
-      >
+    return (<>
       {
-        !gameOn && < GameController gameOn = {
+        !gameOn && < GameController gameOn={
           gameOn
         }
-        playerMoves = {
-          playerMoves
-        }
-        playNewGame = {
-          this.playNewGame
-        }
+          playerMoves={
+            playerMoves
+          }
+          playNewGame={
+            this.playNewGame
+          }
         />} {
-        gameOn && < GameBoard letters = {
+        gameOn && < GameBoard letters={
           letters
         }
-        boardSize = {
-          boardSize
-        }
-        handleGuess = {
-          this.handleGuess
-        }
+          boardSize={
+            boardSize
+          }
+          handleGuess={
+            this.handleGuess
+          }
         />} {
-        gameOn && < GameStats msg = {
+        gameOn && < GameStats msg={
           message
         }
-        sunkenShips = {
-          sunkenShips
-        }
-        playerMoves = {
-          playerMoves
-        }
-        ships = {
-          ships
-        }
-        />} < / >
-      );
-    }
+          sunkenShips={
+            sunkenShips
+          }
+          playerMoves={
+            playerMoves
+          }
+          ships={
+            ships
+          }
+        />} </>
+    );
   }
+}
 
-  export default Game;
+export default Game;
