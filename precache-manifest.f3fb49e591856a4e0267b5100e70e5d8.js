@@ -20,19 +20,19 @@ self.__precacheManifest = [
     "url": "/battleship/static/js/runtime~main.71f5fd55.js"
   },
   {
-    "revision": "8a62a754097d6f2d7fdf",
-    "url": "/battleship/static/js/main.8a62a754.chunk.js"
+    "revision": "ba31d3483c63b725e62d",
+    "url": "/battleship/static/js/main.ba31d348.chunk.js"
   },
   {
     "revision": "e8d6289e9763e551c605",
     "url": "/battleship/static/js/1.e8d6289e.chunk.js"
   },
   {
-    "revision": "8a62a754097d6f2d7fdf",
-    "url": "/battleship/static/css/main.61d87649.chunk.css"
+    "revision": "ba31d3483c63b725e62d",
+    "url": "/battleship/static/css/main.6e907333.chunk.css"
   },
   {
-    "revision": "3c0190bc5d8db7014c8bfdc5097582c3",
+    "revision": "f136498878bd67c60711aa7c900a1007",
     "url": "/battleship/index.html"
   }
 ];

@@ -1,7 +1,7 @@
 {
-  "main.css": "/battleship/static/css/main.61d87649.chunk.css",
-  "main.js": "/battleship/static/js/main.8a62a754.chunk.js",
-  "main.js.map": "/battleship/static/js/main.8a62a754.chunk.js.map",
+  "main.css": "/battleship/static/css/main.6e907333.chunk.css",
+  "main.js": "/battleship/static/js/main.ba31d348.chunk.js",
+  "main.js.map": "/battleship/static/js/main.ba31d348.chunk.js.map",
   "static/js/1.e8d6289e.chunk.js": "/battleship/static/js/1.e8d6289e.chunk.js",
   "static/js/1.e8d6289e.chunk.js.map": "/battleship/static/js/1.e8d6289e.chunk.js.map",
   "runtime~main.js": "/battleship/static/js/runtime~main.71f5fd55.js",
@@ -10,8 +10,8 @@
   "static/media/gameover.mp3": "/battleship/static/media/gameover.0cc3c951.mp3",
   "static/media/GameBoard.css": "/battleship/static/media/hit.29f0b336.png",
   "static/media/miss.mp3": "/battleship/static/media/miss.23ffbe19.mp3",
-  "static/css/main.61d87649.chunk.css.map": "/battleship/static/css/main.61d87649.chunk.css.map",
+  "static/css/main.6e907333.chunk.css.map": "/battleship/static/css/main.6e907333.chunk.css.map",
   "index.html": "/battleship/index.html",
-  "precache-manifest.67f47045ef3e98a5a9da4ec2ccc2c86c.js": "/battleship/precache-manifest.67f47045ef3e98a5a9da4ec2ccc2c86c.js",
+  "precache-manifest.f3fb49e591856a4e0267b5100e70e5d8.js": "/battleship/precache-manifest.f3fb49e591856a4e0267b5100e70e5d8.js",
   "service-worker.js": "/battleship/service-worker.js"
 }
