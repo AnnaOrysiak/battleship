@@ -264,7 +264,6 @@ class Game extends Component {
     let numberOfShips = 6
     let letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
     let ships = [{
-<<<<<<< HEAD
       length: 5,
       locations: ["", "", "", "", ""],
       hits: ["", "", "", "", ""],
@@ -300,51 +299,13 @@ class Game extends Component {
       hits: ["", ""],
       isSunk: false,
     }
-=======
-        length: 5,
-        locations: ["", "", "", "", ""],
-        hits: ["", "", "", "", ""],
-        isSunk: false,
-      },
-      {
-        length: 4,
-        locations: ["", "", "", ""],
-        hits: ["", "", "", ""],
-        isSunk: false,
-      },
-      {
-        length: 3,
-        locations: ["", "", ""],
-        hits: ["", "", ""],
-        isSunk: false,
-      },
-      {
-        length: 3,
-        locations: ["", "", ""],
-        hits: ["", "", ""],
-        isSunk: false,
-      },
-      {
-        length: 2,
-        locations: ["", ""],
-        hits: ["", ""],
-        isSunk: false,
-      },
-      {
-        length: 2,
-        locations: ["", ""],
-        hits: ["", ""],
-        isSunk: false,
-      }
->>>>>>> 0aab48a7bc16deca2569c01c8a394ab6ead79406
     ]
 
-    if (deviceWidth <= 823 && deviceHeight < 1024) {
+    if ((deviceWidth <= 823 && deviceHeight < 1024) || (deviceWidth < 1024 && deviceHeight <= 823)) {
       boardSize = 6;
       numberOfShips = 3;
       letters = ["A", "B", "C", "D", "E", "F"];
       ships = [{
-<<<<<<< HEAD
         length: 4,
         locations: ["", "", "", ""],
         hits: ["", "", "", ""],
@@ -362,25 +323,6 @@ class Game extends Component {
         hits: ["", ""],
         isSunk: false,
       }
-=======
-          length: 4,
-          locations: ["", "", "", ""],
-          hits: ["", "", "", ""],
-          isSunk: false,
-        },
-        {
-          length: 3,
-          locations: ["", "", ""],
-          hits: ["", "", ""],
-          isSunk: false,
-        },
-        {
-          length: 2,
-          locations: ["", ""],
-          hits: ["", ""],
-          isSunk: false,
-        }
->>>>>>> 0aab48a7bc16deca2569c01c8a394ab6ead79406
 
       ]
     }
@@ -398,7 +340,6 @@ class Game extends Component {
       ships
     } = this.state
 
-<<<<<<< HEAD
     return (<>
       {
         !gameOn && < GameController gameOn={
@@ -435,50 +376,7 @@ class Game extends Component {
           }
         />} </>
     );
-=======
-    return ( <
-      >
-      {
-        !gameOn && < GameController gameOn = {
-          gameOn
-        }
-        playerMoves = {
-          playerMoves
-        }
-        playNewGame = {
-          this.playNewGame
-        }
-        />} {
-        gameOn && < GameBoard letters = {
-          letters
-        }
-        boardSize = {
-          boardSize
-        }
-        handleGuess = {
-          this.handleGuess
-        }
-        />} {
-        gameOn && < GameStats msg = {
-          message
-        }
-        sunkenShips = {
-          sunkenShips
-        }
-        playerMoves = {
-          playerMoves
-        }
-        ships = {
-          ships
-        }
-        />} < / >
-      );
-    }
->>>>>>> 0aab48a7bc16deca2569c01c8a394ab6ead79406
   }
+}
 
-<<<<<<< HEAD
 export default Game;
-=======
-  export default Game;
->>>>>>> 0aab48a7bc16deca2569c01c8a394ab6ead79406

@@ -6,7 +6,7 @@
 
 body {
   background-color: #222;
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: 'Space Mono', monospace;
   color: white;
   letter-spacing: 2px;
 }
@@ -19,7 +19,8 @@ h1,
 h2,
 h3,
 p {
-  cursor: default
+  cursor: default;
+  font-weight: normal;
 }
 
 @media (min-width: 568px) and (orientation: landscape) {

@@ -13,7 +13,7 @@
 .gameController div h2 {
   line-height: 60px;
   text-align: center;
-  margin: 20px 0;
+  margin: 20vh 0 20px;
 }
 
 .gameController div p {
@@ -24,12 +24,12 @@
 
 .gameController button {
   position: absolute;
-  bottom: 20%;
+  bottom: 10%;
   left: 50%;
   transform: translate(-50%, 0%);
-  height: 15vw;
-  width: 70vw;
-  background-color: forestgreen;
+  height: 50px;
+  width: 250px;
+  background-color: rgba(30, 144, 255, .5);
   font-size: 16px;
   color: white;
   text-transform: uppercase;
