@@ -301,7 +301,7 @@ class Game extends Component {
     }
     ]
 
-    if ((deviceWidth <= 823 && deviceHeight < 1024) || (deviceWidth < 1024 && deviceHeight <= 823)) {
+    if ((deviceWidth < 1024 && deviceHeight < 1024)) {
       boardSize = 6;
       numberOfShips = 3;
       letters = ["A", "B", "C", "D", "E", "F"];
@@ -326,6 +326,7 @@ class Game extends Component {
 
       ]
     }
+
     this.generateShipLocations(boardSize, numberOfShips, letters, ships)
   }
 

@@ -106,7 +106,7 @@
   }
 }
 
-@media (min-width: 568px) and (orientation: landscape) {
+@media (orientation: landscape) {
   .board {
     order: 1;
     width: 90vh;
