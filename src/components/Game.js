@@ -1,12 +1,11 @@
-import React, {
-  Component
-} from 'react';
+import React, { Component } from 'react';
 import hit from '../audio/hit.mp3';
 import miss from '../audio/miss.mp3';
 import gameover from '../audio/gameover.mp3';
 import GameController from './GameController';
 import GameBoard from './GameBoard';
 import GameStats from './GameStats';
+import config from '../utlis/config';
 
 
 class Game extends Component {
@@ -14,213 +13,208 @@ class Game extends Component {
   state = {
     gameOn: false,
     boardSize: 10,
-    numberOfShips: 0,
     sunkenShips: [],
     playerMoves: 0,
     message: "Cel, ognia!",
-    letters: [],
     ships: []
   }
 
   playNewGame = () => {
-    let {
-      boardSize,
-      numberOfShips,
-      letters,
-      ships
-    } = this.state
-
-    for (let ship of ships) {
-      for (let i = 0; i < ship.length; i++) {
-        ship.locations[i] = ""
-        ship.hits[i] = ""
-      }
-      ship.isSunk = false
-    }
+    const newShips = this.generateShipLocations(this.clearShips());
 
     this.setState({
       gameOn: true,
       sunkenShips: [],
       playerMoves: 0,
       message: "Cel, ognia!",
-      ships
-    })
-
-    setTimeout(this.generateShipLocations(boardSize, numberOfShips, letters, ships), 100)
+      ships: newShips
+    }, () => console.log(this.state.ships))
   }
 
-  generateShipLocations(boardSize, numberOfShips, letters, ships) {
-    let locations
-    for (let ship of ships) {
-      do {
-        locations = this.generateShip(ship, boardSize, letters)
-      }
-      while (this.collision(locations, ships, letters))
-      ship.locations = locations
-    }
-
-    this.setState({
-      boardSize,
-      numberOfShips,
-      letters,
-      ships
-    })
+  clearShips() {
+    return this.state.ships.map(ship => ({
+      ...ship,
+      locations: [
+        ...ship.locations.map(location => ({
+          x: null,
+          y: null,
+          hit: false
+        }))
+      ],
+      isSunk: false,
+    }));
   }
 
-  generateShip(ship, boardSize, letters) {
-    const direction = Math.floor(Math.random() * 2)
-    let column = letters
-    let row = boardSize
-    let index = 0
-    if (direction === 1) { // kierunek poziomy
-      row = Math.ceil(Math.random() * boardSize)
-      index = Math.floor(Math.random() * (boardSize - ship.length))
-    } else { // kierunek pionowy
-      row = Math.ceil(Math.random() * (boardSize - ship.length))
-      index = Math.floor(Math.random() * boardSize)
-    }
+  generateShipLocations(cleanShips) {
+    const shipsCoordinates = [];
 
-    const newShipLocations = []
-    for (let i = 0; i < ship.length; i++) {
-      if (direction === 1) {
-        newShipLocations.push((column[index + i]) + row)
-      } else {
-        newShipLocations.push(column[index] + (row + i))
-      }
-    }
-    return newShipLocations
-  }
+    const ships = cleanShips.map(ship => {
+      let locations;
 
-  collision(locations, ships, letters) {
-    let locationsArea = []
-
-    for (let ship of ships) {
-
-      for (let i = 0; i < ship.length; i++) {
-        if (ship.locations[i]) {
-          const char = ship.locations[i].charAt(0)
-          let charPrev = false
-          let charNext = false
-          let nextIndex = letters.indexOf(char) + 1
-          let prevIndex = letters.indexOf(char) - 1
-
-          let number = ship.locations[i].substr(1)
-          let numberPrev = number
-          let numberNext = number
-
-          if (letters.indexOf(char) > 0 && letters.indexOf(char) < 9) {
-            charPrev = letters[prevIndex]
-            charNext = letters[nextIndex]
-          } else if (letters.indexOf(char) === 9) {
-            charPrev = letters[prevIndex]
-            charNext = false
-          } else if (letters.indexOf(char) === 0) {
-            charPrev = false
-            charNext = letters[nextIndex]
+      if (shipsCoordinates.length) {
+        const checkShipsColision = () => {
+          locations = this.getShipCoordinates(this.getRandomCoordinates(), ship);
+          if (this.checkCurrentLocationsCollision(shipsCoordinates, locations)) {
+            checkShipsColision();
           }
-          if (numberPrev === 1) {
-            numberPrev = false
-            numberNext++
-          } else if (numberNext === 10) {
-            numberPrev--
-            numberNext = false
-          } else if (numberPrev > 1 && numberNext < 10) {
-            numberPrev--
-            numberNext++
+          else {
+            shipsCoordinates.push(locations.map(location => (
+              { ...location, x: location.x, y: location.y }
+            )
+            )
+            )
           }
-
-          if (charPrev && numberPrev) {
-            locationsArea.push(charPrev + numberPrev)
-          }
-          if (charPrev && number) {
-            locationsArea.push(charPrev + number)
-          }
-          if (charPrev && numberNext) {
-            locationsArea.push(charPrev + numberNext)
-          }
-
-          if (char && numberPrev) {
-            locationsArea.push(char + numberPrev)
-          }
-          if (char && numberNext) {
-            locationsArea.push(char + numberNext)
-          }
-
-          if (charNext && numberPrev) {
-            locationsArea.push(charNext + numberPrev)
-          }
-          if (charNext && number) {
-            locationsArea.push(charNext + number)
-          }
-          if (charNext && numberNext) {
-            locationsArea.push(charNext + numberNext)
-          }
-
         }
-
-        if (ship.locations.indexOf(locations[i]) >= 0) {
-          return true
-        } else if (locationsArea.indexOf(locations[i]) >= 0) {
-          return true
-        }
+        checkShipsColision();
       }
+      else {
+        locations = this.getShipCoordinates(this.getRandomCoordinates(), ship);
+        shipsCoordinates.push(locations.map(location => (
+          { ...location, x: location.x, y: location.y }
+        )
+        )
+        )
+      }
+      return ({ ...ship, locations })
     }
-    return false
+    )
+    return ships;
+  }
+
+  getRandomCoordinates() {
+    const boardSize = this.state.boardSize;
+    let x = Math.floor(Math.random() * boardSize);
+    let y = Math.floor(Math.random() * boardSize);
+    return [x, y]
+  }
+
+  getShipCoordinates = (coordinates, ship) => {
+    const length = ship.length;
+    const isHorizontal = this.getShipDirection();
+    const locationStart = this.setShipLocationStart(coordinates, isHorizontal, length);
+    return this.setShipCoordinates(locationStart, isHorizontal, ship);
+  }
+
+  getShipDirection() {
+    return Math.random() >= 0.5;
+  }
+
+  setShipLocationStart(coordinates, isHorizontal, length) {
+    const boardSize = this.state.boardSize;
+    let x = coordinates[0];
+    let y = coordinates[1];
+    if (isHorizontal) {
+      if (x + length >= boardSize) {
+        x = Math.abs(x - length);
+      }
+    } else if (y + length >= boardSize) {
+      y = Math.abs(y - length);
+    }
+    return [x, y];
+  }
+
+  setShipCoordinates(coordinates, isHorizontal, ship) {
+    if (isHorizontal) {
+      return ship.locations.map(location => ({
+        ...location,
+        x: coordinates[0]++,
+        y: coordinates[1]
+      }))
+    } else {
+      return ship.locations.map(location => ({
+        ...location,
+        x: coordinates[0],
+        y: coordinates[1]++
+      }))
+    }
+  }
+
+  checkCurrentLocationsCollision(shipsCoordinates, locations) {
+    let collide = false;
+
+    const compareLocations = (location) => {
+      const minScopeX = location.x > 0 ? location.x - 1 : location.x;
+      const maxScopeX = location.x + 1;
+      const minScopeY = location.y > 0 ? location.y - 1 : location.y;
+      const maxScopeY = location.y + 1;
+
+      shipsCoordinates.forEach((singleShipCoordinates) => {
+        const checkScope = singleShipCoordinates.map(coordinate => (coordinate.x >= minScopeX && coordinate.x <= maxScopeX && coordinate.y >= minScopeY && coordinate.y <= maxScopeY)
+        )
+        if (checkScope.includes(true)) {
+          collide = true;
+        }
+        return checkScope;
+      }
+      )
+    }
+
+    locations.forEach(compareLocations);
+    return collide;
   }
 
   handleGuess = e => {
-    let id = e.target.id
-    let message = ""
+    let id = e.target.id;
+    let message = "";
 
     if (this.state.gameOn) {
-
       if (e.target.classList.contains("hit") || e.target.classList.contains("miss")) {
-        message = "Wybierz nowe współrzędne"
-        id = 0
+        message = "Wybierz nowe współrzędne";
+        id = 0;
       } else {
-        let ships = [...this.state.ships]
-        let sunkenShips = this.state.sunkenShips
+        let ships = this.state.ships.map(ship => ship);
+        let locationFound = false;
+        let sunkenShips = [...this.state.sunkenShips];
 
-        for (let ship of ships) {
-          let index = ship.locations.indexOf(id)
-          if (index >= 0) {
-            ship.hits[index] = "hit"
-            message = "Trafiony!"
-            if (this.isSunk(ship)) {
-              message = "Trafiony zatopiony!"
-              ship.isSunk = true;
-              sunkenShips.push(ship.length)
-              if (sunkenShips.length === this.state.numberOfShips) {
-                message = "Koniec gry"
+        for (const ship of ships) {
+          let locations = ship.locations;
+
+          for (const location of locations) {
+            if (!locationFound) {
+              const shipLocation = `x${location.x}y${location.y}`;
+
+              if (shipLocation === id) {
+                location.hit = true;
+                message = "Trafiony!";
+
+                if (this.isSunk(ship)) {
+                  message = "Trafiony zatopiony!";
+                  ship.isSunk = true;
+                  sunkenShips.push(ship.length);
+
+                  if (sunkenShips.length === ships.length) {
+                    message = "Koniec gry";
+                  }
+                }
+
+                locationFound = true;
+                break;
+
+              } else {
+                message = "Pudło!"
               }
             }
-            break;
-          } else {
-            message = "Pudło!"
           }
         }
+
         this.setState(() => ({
           ships,
           sunkenShips
         }))
       }
-      this.viewResult(message, id)
+
     }
+    this.viewResult(message, id)
   }
 
   isSunk(ship) {
-    let hits = 0
-    for (let i = 0; i < ship.length; i++) {
-      if (ship.hits[i] === "hit") {
-        hits++
-      }
-    }
-    if (hits === ship.length) {
-      for (let i = 0; i < ship.length; i++) {
-        document.getElementById(ship.locations[i]).classList.add("sunk")
-      }
-      return true
-    }
+    let hits = 0;
+    let locations = ship.locations;
+    locations.forEach(location => {
+      if (location.hit) hits++;
+      else return hits;
+    })
+    if (ship.length === hits) return true;
   }
 
   viewResult(message, id) {
@@ -230,8 +224,8 @@ class Game extends Component {
         message
       })
     } else {
-      let playerMoves = this.state.playerMoves
-      playerMoves++
+      let playerMoves = this.state.playerMoves;
+      playerMoves++;
 
       if (message === "Trafiony!" || message === "Trafiony zatopiony!" || message === "Koniec gry") {
         const audio = new Audio(hit)
@@ -256,85 +250,49 @@ class Game extends Component {
     }
   }
 
-  componentDidMount() {
-    const deviceWidth = (window.innerWidth > 0) ? window.innerWidth : "640";
-    const deviceHeight = (window.innerHeight > 0) ? window.innerHeight : "360";
 
-    let boardSize = 10
-    let numberOfShips = 6
-    let letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-    let ships = [{
-      length: 5,
-      locations: ["", "", "", "", ""],
-      hits: ["", "", "", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 4,
-      locations: ["", "", "", ""],
-      hits: ["", "", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 3,
-      locations: ["", "", ""],
-      hits: ["", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 3,
-      locations: ["", "", ""],
-      hits: ["", "", ""],
-      isSunk: false,
-    },
-    {
-      length: 2,
-      locations: ["", ""],
-      hits: ["", ""],
-      isSunk: false,
-    },
-    {
-      length: 2,
-      locations: ["", ""],
-      hits: ["", ""],
-      isSunk: false,
-    }
-    ]
+  createShips(boardSize) {
+    const shipsLengths = boardSize === 6 ? config.shipsSizes.small : config.shipsSizes.large;
 
-    if ((deviceWidth < 1024 && deviceHeight < 1024)) {
-      boardSize = 6;
-      numberOfShips = 3;
-      letters = ["A", "B", "C", "D", "E", "F"];
-      ships = [{
-        length: 4,
-        locations: ["", "", "", ""],
-        hits: ["", "", "", ""],
-        isSunk: false,
-      },
-      {
-        length: 3,
-        locations: ["", "", ""],
-        hits: ["", "", ""],
-        isSunk: false,
-      },
-      {
-        length: 2,
-        locations: ["", ""],
-        hits: ["", ""],
-        isSunk: false,
+    const ships = shipsLengths.map((length, index) => {
+      const locations = [];
+      for (let i = 0; i < shipsLengths[index]; i++) {
+        locations.push({
+          x: null,
+          y: null,
+          hit: false
+        })
       }
 
-      ]
-    }
+      return {
+        name: `ship-${index + 1}`,
+        length,
+        locations,
+        isSunk: false
+      }
+    })
 
-    this.generateShipLocations(boardSize, numberOfShips, letters, ships)
+    return ships;
+  }
+
+
+  componentDidMount() {
+    const deviceWidth = window.innerWidth || config.deviceSize.medium;
+    const deviceHeight = window.innerHeight || config.deviceSize.small;
+    const boardSize = (deviceWidth < config.deviceSize.large && deviceHeight < config.deviceSize.large) ? config.boardSize.small : config.boardSize.large
+
+    const ships = this.createShips(boardSize);
+
+    this.setState({
+      boardSize,
+      ships
+    })
   }
 
   render() {
     const {
       gameOn,
       boardSize,
-      letters,
       sunkenShips,
       playerMoves,
       message,
@@ -342,20 +300,21 @@ class Game extends Component {
     } = this.state
 
     return (<>
-      {
-        !gameOn && < GameController gameOn={
-          gameOn
-        }
-          playerMoves={
-            playerMoves
+      <React.StrictMode>
+        {
+
+          !gameOn && < GameController gameOn={
+            gameOn
           }
-          playNewGame={
-            this.playNewGame
-          }
-        />} {
-        gameOn && < GameBoard letters={
-          letters
-        }
+            playerMoves={
+              playerMoves
+            }
+            playNewGame={
+              this.playNewGame
+            }
+          />}
+      </React.StrictMode>{
+        gameOn && < GameBoard
           boardSize={
             boardSize
           }
