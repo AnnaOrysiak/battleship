@@ -1,9 +1,10 @@
 import React from 'react';
 import './GameBoard.css';
+import config from '../utlis/config';
 
 const GameBoard = props => {
   const { boardSize } = props;
-  let letters = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+  const { letters } = config;
   let boardRows = []
 
   for (let i = 0; i <= boardSize; i++) {

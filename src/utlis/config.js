@@ -13,6 +13,8 @@ const config = {
   shipsSizes: {
     small: [4, 3, 2],
     large: [5, 4, 3, 3, 2, 2]
-  }
+  },
+
+  letters: ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
 };
 export default config;

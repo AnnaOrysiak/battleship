@@ -20,35 +20,19 @@ class Game extends Component {
   }
 
   playNewGame = () => {
-    const newShips = this.generateShipLocations(this.clearShips());
-
     this.setState({
       gameOn: true,
       sunkenShips: [],
       playerMoves: 0,
       message: "Cel, ognia!",
-      ships: newShips
-    }, () => console.log(this.state.ships))
+      ships: this.generateShipLocations()
+    })
   }
 
-  clearShips() {
-    return this.state.ships.map(ship => ({
-      ...ship,
-      locations: [
-        ...ship.locations.map(location => ({
-          x: null,
-          y: null,
-          hit: false
-        }))
-      ],
-      isSunk: false,
-    }));
-  }
-
-  generateShipLocations(cleanShips) {
+  generateShipLocations() {
     const shipsCoordinates = [];
 
-    const ships = cleanShips.map(ship => {
+    const ships = this.state.ships.map(ship => {
       let locations;
 
       if (shipsCoordinates.length) {
@@ -58,24 +42,16 @@ class Game extends Component {
             checkShipsColision();
           }
           else {
-            shipsCoordinates.push(locations.map(location => (
-              { ...location, x: location.x, y: location.y }
-            )
-            )
-            )
+            shipsCoordinates.push(locations.map(location => location))
           }
         }
         checkShipsColision();
       }
       else {
         locations = this.getShipCoordinates(this.getRandomCoordinates(), ship);
-        shipsCoordinates.push(locations.map(location => (
-          { ...location, x: location.x, y: location.y }
-        )
-        )
-        )
+        shipsCoordinates.push(locations.map(location => location))
       }
-      return ({ ...ship, locations })
+      return ({ ...ship, locations, isSunk: false })
     }
     )
     return ships;
@@ -83,8 +59,8 @@ class Game extends Component {
 
   getRandomCoordinates() {
     const boardSize = this.state.boardSize;
-    let x = Math.floor(Math.random() * boardSize);
-    let y = Math.floor(Math.random() * boardSize);
+    const x = Math.floor(Math.random() * boardSize);
+    const y = Math.floor(Math.random() * boardSize);
     return [x, y]
   }
 
@@ -116,13 +92,13 @@ class Game extends Component {
   setShipCoordinates(coordinates, isHorizontal, ship) {
     if (isHorizontal) {
       return ship.locations.map(location => ({
-        ...location,
+        hit: false,
         x: coordinates[0]++,
         y: coordinates[1]
       }))
     } else {
       return ship.locations.map(location => ({
-        ...location,
+        hit: false,
         x: coordinates[0],
         y: coordinates[1]++
       }))
@@ -250,7 +226,6 @@ class Game extends Component {
     }
   }
 
-
   createShips(boardSize) {
     const shipsLengths = boardSize === 6 ? config.shipsSizes.small : config.shipsSizes.large;
 
@@ -274,7 +249,6 @@ class Game extends Component {
 
     return ships;
   }
-
 
   componentDidMount() {
     const deviceWidth = window.innerWidth || config.deviceSize.medium;
